@@ -17,6 +17,9 @@
                 <asp:Button ID="ButtonGetNewRandomNumber" runat="server" Text="Slumpa nytt hemligt tal" />
             </asp:PlaceHolder>
         </p>
+        <p>
+            <asp:Label ID="LabelResultOfGuess" runat="server" Text="No Message Yet"></asp:Label>
+        </p>
         <asp:RequiredFieldValidator ID="RequiredFieldValidatorForGuess" runat="server" ErrorMessage="Ett tal måste anges." ControlToValidate="TextBoxEnterGuess"></asp:RequiredFieldValidator>
         <asp:RangeValidator ID="RangeValidatorGuess" runat="server" ErrorMessage="Ange ett tal mellan 1 och 100." Type="Integer" MaximumValue="100" MinimumValue="1" ControlToValidate="TextBoxEnterGuess" Display="Dynamic"></asp:RangeValidator>
     </div>

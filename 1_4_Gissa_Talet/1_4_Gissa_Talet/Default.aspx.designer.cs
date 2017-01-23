@@ -67,6 +67,15 @@ namespace _1_4_Gissa_Talet {
         protected global::System.Web.UI.WebControls.Button ButtonGetNewRandomNumber;
         
         /// <summary>
+        /// LabelResultOfGuess control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelResultOfGuess;
+        
+        /// <summary>
         /// RequiredFieldValidatorForGuess control.
         /// </summary>
         /// <remarks>
