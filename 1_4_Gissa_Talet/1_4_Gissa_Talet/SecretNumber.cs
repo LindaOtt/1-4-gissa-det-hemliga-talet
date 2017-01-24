@@ -10,7 +10,7 @@ namespace _1_4_Gissa_Talet
     {
         private int _number; //The secret number
         private List<int> _previousGuesses; //All made guesses since secret number was created
-        private int MaxNumberOfGuesses; //Nr of guesses for user to guess secret number
+        private int MaxNumberOfGuesses; //Nr of guesses allowed for user to guess secret number
         public enum OutcomeType
         {
             Indefinite,
@@ -30,7 +30,20 @@ namespace _1_4_Gissa_Talet
         //Number of guesses made since secret number was created
         public int Count
         {
-            get;
+            
+            get
+            {
+                   int countGuesses = 0;
+                   bool isGuessListEmpty = !_previousGuesses.Any();
+                   if (isGuessListEmpty) {
+                       countGuesses = 0;
+                   }
+                   else {
+                       countGuesses = _previousGuesses.Count;
+                   }
+                
+                   return countGuesses;
+            }
         }
 
         //Gives or sets the secret number
@@ -56,7 +69,10 @@ namespace _1_4_Gissa_Talet
         //Collection of made guesses
         public IEnumerable<int> PreviousGuesses
         {
-            get;
+            get
+            {
+                return _previousGuesses;
+            }
         }
 
         /*
@@ -68,7 +84,8 @@ namespace _1_4_Gissa_Talet
         public SecretNumber()
         {
             Initialize();
-            _previousGuesses = new List<int>(new int[7]);
+            //_previousGuesses = new List<int>(new int[7]);
+            _previousGuesses = new List<int>();
         }
 
         /*Initilizes members of this class
@@ -93,8 +110,44 @@ namespace _1_4_Gissa_Talet
          */
         public OutcomeType MakeGuess(int guess)
         {
-            OutcomeType outcome = OutcomeType.High;
-            return outcome;
+            //Check that the guess is between 1 and 100
+            if (guess > 100 || guess < 1)
+            {
+                throw new ArgumentOutOfRangeException("Your guess is not between 1 and 100.");
+            }
+
+            //Check if the guess has been made before
+            bool isInList = _previousGuesses.IndexOf(guess) != -1;
+            if (isInList )
+            {
+                _previousGuesses.Add(guess);
+                OutCome = OutcomeType.PreviousGuess;
+                return OutCome;
+            }
+            else { 
+
+                if (guess == Number)
+                {
+                    _previousGuesses.Add(guess);
+                    OutCome = OutcomeType.Correct;
+                    return OutCome;
+                }
+                else if (guess < Number)
+                {
+                    _previousGuesses.Add(guess);
+                    OutCome = OutcomeType.Low;
+                    return OutCome;
+                }
+                else if (guess > Number)
+                {
+                    _previousGuesses.Add(guess);
+                    OutCome = OutcomeType.High;
+                }
+
+            }
+
+            OutCome = OutcomeType.Indefinite;
+            return OutCome;
         }
 
     }

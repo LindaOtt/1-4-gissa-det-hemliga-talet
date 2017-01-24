@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -10,6 +11,7 @@ namespace _1_4_Gissa_Talet
     public partial class WebForm1 : System.Web.UI.Page
     {
 
+        string madeGuessesText = "";
         //Session variable stores ref to business layer
 
 
@@ -28,7 +30,30 @@ namespace _1_4_Gissa_Talet
             {
                 if (Session["secretNumber"] != null)
                 {
-                    SecretNumber secretNumber = (SecretNumber)Session["secretNumber"];
+                    try {
+                        //SecretNumber secretNumber = (SecretNumber)Session["secretNumber"];
+                        SecretNumber secretNumber = (SecretNumber)Session["secretNumber"];
+                        //LabelResultOfGuess.Text = Convert.ToString(secretNumber.Number);
+
+                        //secretNumber.MakeGuess(15);
+                        
+                        secretNumber.MakeGuess(Convert.ToInt16(TextBoxEnterGuess.Text));
+
+                        //Creating a string with previously made guesses
+                        foreach (int madeGuess in secretNumber.PreviousGuesses)
+                        {
+                            madeGuessesText = madeGuessesText + madeGuess + ", ";
+                        }
+
+                        //Writing out the string of previously made guesses
+                        LabelMadeGuesses.Text = madeGuessesText;
+                        
+                    }
+                    catch (Exception error)  {
+                        LabelMadeGuesses.Text = Convert.ToString(error);
+                        Debug.Write(error);
+                    }
+                    
                 }
                 else
                 {
