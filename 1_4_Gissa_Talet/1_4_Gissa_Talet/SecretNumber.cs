@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -35,7 +36,14 @@ namespace _1_4_Gissa_Talet
         //Gives or sets the secret number
         public int? Number
         {
-            get;
+            set
+            {
+                _number = (int)value;
+            }
+            get
+            {
+                return _number;
+            }
         }
 
         //Gives the result of the latest made guess
@@ -59,7 +67,8 @@ namespace _1_4_Gissa_Talet
          */
         public SecretNumber()
         {
-
+            Initialize();
+            _previousGuesses = new List<int>(new int[7]);
         }
 
         /*Initilizes members of this class
@@ -69,7 +78,12 @@ namespace _1_4_Gissa_Talet
          * */
         public void Initialize()
         {
-
+            if (_previousGuesses != null) { 
+                _previousGuesses.Clear();
+            }
+            Random rnd = new Random();
+            Number = rnd.Next(1, 100);
+            OutCome = OutcomeType.Indefinite;
         }
 
         /* Returns value of type OutcomeType which indicates if 
