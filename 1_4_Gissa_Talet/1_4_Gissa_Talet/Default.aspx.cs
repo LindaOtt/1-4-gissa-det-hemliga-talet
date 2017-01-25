@@ -17,6 +17,11 @@ namespace _1_4_Gissa_Talet
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            TextBoxEnterGuess.Focus();
+            string message = "";
+
+            
+
             //Check to see if the form has already been posted
             //If not, initialize SecretNumber
             if (!IsPostBack)
@@ -31,12 +36,16 @@ namespace _1_4_Gissa_Talet
                 if (Session["secretNumber"] != null)
                 {
                     try {
-                        //SecretNumber secretNumber = (SecretNumber)Session["secretNumber"];
                         SecretNumber secretNumber = (SecretNumber)Session["secretNumber"];
-                        //LabelResultOfGuess.Text = Convert.ToString(secretNumber.Number);
+                        //Check if submit guess button should be usable
+                        if (secretNumber.Count >= 7)
+                        {
+                            ButtonSubmitGuess.Enabled = false;
+                            PlaceHolderNewRandomNumber.Visible = true;
+                            ButtonGetNewRandomNumber.Enabled = true;
+                            ButtonGetNewRandomNumber.Focus();
+                        }
 
-                        //secretNumber.MakeGuess(15);
-                        
                         secretNumber.MakeGuess(Convert.ToInt16(TextBoxEnterGuess.Text));
 
                         //Creating a string with previously made guesses
@@ -47,7 +56,29 @@ namespace _1_4_Gissa_Talet
 
                         //Writing out the string of previously made guesses
                         LabelMadeGuesses.Text = madeGuessesText;
-                        
+
+                        switch(Convert.ToString(secretNumber.OutCome))
+                        {
+                            case "Low":
+                                message = "Talet du gissade är för lågt";
+                                break;
+                            case "High":
+                                message = "Talet du gissade är för högt";
+                                break;
+                            case "Correct":
+                                message = "Du gissade rätt på " + secretNumber.Count + "försök.";
+                                break;
+                            case "NoMoreGuesses":
+                                message = "Du har inga gissningar kvar. Det hemliga talet var " + secretNumber.Number;
+                                break;
+                            default:
+                                message = "";
+                                break;
+                        }
+
+                        //Writing out the message resulting from the made guess
+                        LabelResultOfGuess.Text = message;
+
                     }
                     catch (Exception error)  {
                         LabelMadeGuesses.Text = Convert.ToString(error);
@@ -57,7 +88,7 @@ namespace _1_4_Gissa_Talet
                 }
                 else
                 {
-                    throw new Exception("The secretNumber reference is missing.");
+                    throw new Exception("Referens till secretNumber saknas.");
                 }
 
             }

@@ -110,40 +110,49 @@ namespace _1_4_Gissa_Talet
          */
         public OutcomeType MakeGuess(int guess)
         {
-            //Check that the guess is between 1 and 100
-            if (guess > 100 || guess < 1)
+            //Check if the number of guesses is equal to or greater than 7
+            if (Count >= 7)
             {
-                throw new ArgumentOutOfRangeException("Your guess is not between 1 and 100.");
-            }
-
-            //Check if the guess has been made before
-            bool isInList = _previousGuesses.IndexOf(guess) != -1;
-            if (isInList )
-            {
-                _previousGuesses.Add(guess);
-                OutCome = OutcomeType.PreviousGuess;
+                OutCome = OutcomeType.NoMoreGuesses;
                 return OutCome;
             }
             else { 
-
-                if (guess == Number)
+                //Check that the guess is between 1 and 100
+                if (guess > 100 || guess < 1)
                 {
-                    _previousGuesses.Add(guess);
-                    OutCome = OutcomeType.Correct;
-                    return OutCome;
-                }
-                else if (guess < Number)
-                {
-                    _previousGuesses.Add(guess);
-                    OutCome = OutcomeType.Low;
-                    return OutCome;
-                }
-                else if (guess > Number)
-                {
-                    _previousGuesses.Add(guess);
-                    OutCome = OutcomeType.High;
+                    throw new ArgumentOutOfRangeException("Your guess is not between 1 and 100.");
                 }
 
+                //Check if the guess has been made before
+                bool isInList = _previousGuesses.IndexOf(guess) != -1;
+                if (isInList )
+                {
+                    _previousGuesses.Add(guess);
+                    OutCome = OutcomeType.PreviousGuess;
+                    return OutCome;
+                }
+                else { 
+
+                    if (guess == Number)
+                    {
+                        _previousGuesses.Add(guess);
+                        OutCome = OutcomeType.Correct;
+                        return OutCome;
+                    }
+                    else if (guess < Number)
+                    {
+                        _previousGuesses.Add(guess);
+                        OutCome = OutcomeType.Low;
+                        return OutCome;
+                    }
+                    else if (guess > Number)
+                    {
+                        _previousGuesses.Add(guess);
+                        OutCome = OutcomeType.High;
+                        return OutCome;
+                    }
+
+                }
             }
 
             OutCome = OutcomeType.Indefinite;
