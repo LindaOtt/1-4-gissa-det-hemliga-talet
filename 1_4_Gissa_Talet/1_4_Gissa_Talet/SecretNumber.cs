@@ -9,7 +9,8 @@ namespace _1_4_Gissa_Talet
     public class SecretNumber
     {
         private int _number; //The secret number
-        private List<int> _previousGuesses; //All made guesses since secret number was created
+        //private List<int> _previousGuesses; //All made guesses since secret number was created
+        private List<int> _previousGuesses;
         private int MaxNumberOfGuesses; //Nr of guesses allowed for user to guess secret number
         public enum OutcomeType
         {
@@ -24,7 +25,17 @@ namespace _1_4_Gissa_Talet
         //Shows if a guess can be made
         public bool CanMakeGuess
         {
-            get;
+            get
+            {
+                if (OutCome == OutcomeType.NoMoreGuesses)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
         }
 
         //Number of guesses made since secret number was created
@@ -84,7 +95,6 @@ namespace _1_4_Gissa_Talet
         public SecretNumber()
         {
             Initialize();
-            //_previousGuesses = new List<int>(new int[7]);
             _previousGuesses = new List<int>();
         }
 
@@ -110,9 +120,11 @@ namespace _1_4_Gissa_Talet
          */
         public OutcomeType MakeGuess(int guess)
         {
+            
             //Check if the number of guesses is equal to or greater than 7
-            if (Count >= 7)
+            if (Count >= 6)
             {
+                _previousGuesses.Add(guess);
                 OutCome = OutcomeType.NoMoreGuesses;
                 return OutCome;
             }
@@ -120,12 +132,12 @@ namespace _1_4_Gissa_Talet
                 //Check that the guess is between 1 and 100
                 if (guess > 100 || guess < 1)
                 {
-                    throw new ArgumentOutOfRangeException("Your guess is not between 1 and 100.");
+                    throw new ArgumentOutOfRangeException("Din gissning är inte mellan 1 and 100.");
                 }
 
                 //Check if the guess has been made before
                 bool isInList = _previousGuesses.IndexOf(guess) != -1;
-                if (isInList )
+                if (isInList)
                 {
                     _previousGuesses.Add(guess);
                     OutCome = OutcomeType.PreviousGuess;
@@ -151,7 +163,6 @@ namespace _1_4_Gissa_Talet
                         OutCome = OutcomeType.High;
                         return OutCome;
                     }
-
                 }
             }
 
